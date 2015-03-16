@@ -1,0 +1,46 @@
+html {color: #333;}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {margin: 0;padding: 0}
+table {border-collapse: collapse;border-spacing: 0;}
+fieldset, img {border: 0 none;vertical-align:middle}
+/*address, caption, cite, code, dfn, em, strong, th, var, b, i, s {font-style: normal;font-weight: normal}*/
+ul,ol,li{list-style:none;}
+caption, th {text-align: left}
+h1, h2, h3, h4, h5, h6 {font-size: 100%;font-weight: normal}
+sup {vertical-align: text-top}
+sub {vertical-align: text-bottom}
+body, button, select, textarea, input {font:12px/1.125 Arial,Helvetica,sans-serif;}
+body {word-wrap: break-word; word-wrap:break-word;}
+a{color:#36c;text-decoration:none}
+a:hover{text-decoration:none}
+body{_background-image:url(about:blank);   
+   _background-attachment:fixed;}
+
+
+/*public*/
+a.font-orange:link, a.font-orange:visited{color:#f60}
+.f3,a.f3:hover{color:#333;font-weight:normal;}
+.f9:link,a.f9:hover{color:#999}
+.font-orange{color:#f60}
+.vline{font-style:normal;margin:0 5px;}
+.checkbox{vertical-align:middle;margin:0 5px 0 0;_vertical-align:-1px;*margin:0 3px 0 -3px;}
+.clearfix{*zoom:1}
+.clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
+.clear{clear:both}
+.hide{overflow:hidden}
+.font-w{font-weight:normal;}
+.border-b{border-bottom:1px solid #ccc;}
+.border-r{border-right:1px solid #ccc;}
+.left{float:left}
+.auto{overflow:hidden;_zoom:1;_float:left;margin:0 auto;}
+.right{float:right}
+
+/*提示窗口*/
+.Prompt{padding:55px 0 0;width:600px;margin:0 auto;_padding:15px 0 0;}
+.Prompt-inner{background:#FAF0E6;padding:20px;text-align:center;height:50px;border:2px solid #E0E0E0;}
+.Prompt-inner .box-ver{color:#DD4B39;}
+.Prompt span{color:#36c;}
+
+/*提示图标*/
+.ico-error, .ico-ok{background:url(../image/ico-tips.png) no-repeat 0 0;display:inline-block;background:url(../image/ico-tips.gif) no-repeat 0 0\0;}
+.ico-error{background-position:-39px 0;width:20px;height:20px;margin:0 5px 0 0;vertical-align:-4px}
+.ico-ok{background-position:0 0;width:20px;height:20px;margin:0 5px 0 0;vertical-align:middle;*vertical-align:-2px}
