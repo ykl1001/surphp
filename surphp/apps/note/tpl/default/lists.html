@@ -1,0 +1,64 @@
+{template "header","blog"}
+<script type="text/javascript" src="{JS_PATH}note.js"></script>
+<div class="main">
+<div class="opera_top">
+<ul>
+    <li class="left"><a href="{U('note/index/add')}" id="addnote" class="writenew">写笔记</a></li>
+    <li><a class="addcategory" href="{U('blog/category/add')}">添加分类</a></li>
+</ul>
+</div>
+<div class="main_left">
+{loop $notes $note}
+<div class="note" {if $note['background']} style="background-color:#{$note['background']}"{/if}>
+    <div class="info">
+        <ul class="notetags">
+        <?php if(!empty($note['tag']) && ($tags = explode(',',$note['tag']))){
+            foreach($tags as $tag){ ?>
+            <li><a href="{U('blog/index/lists','tag='.urlencode($tag))}"><?php echo $tag?></a></li>
+        <?php } }?>
+        </ul>
+        <span class="pv">访问量：{$note['pv']}</span>
+        <span class="date">更新于：{friendlyDate($note['modifytime'],'mohu')}</span>
+    </div>
+    <div class="title">{$note['title']}</div>
+    <div class="opera"><div class="left"><a href="{U('note/index/lists','cid='.$note['category'])}">{if $note['category']} {$category[$note['category']]['cname']} {else} 默认 {/if}</a></div><div class="right"><a href="{U('note/index/show','id='.$note['id'])}" class="toview">阅读</a> <a href="{U('note/index/modify','id='.$note['id'])}" class="tomodify">修改</a> <a href="{U('note/index/delete','id='.$note['id'])}">删除</a> </div></div>
+    <div class="clear"></div>
+</div>
+{/loop}
+</div>
+<div class="main_right">
+    <div class="r_category">
+        <ul id="cat_tree" class="filetree treeview-famfamfam">
+        <li><span class="folder">分类</span>
+            
+        <?php if(!empty($category)){
+            foreach($category as $cat){ ?>
+            <ul><li><span class="folder"><a href="{U('note/index/lists','cid='.urlencode($cat['id']))}"><?php echo $cat['cname']?></a></span><a href="{U('blog/category/delete','cid='.urlencode($cat['id']))}" class="delcat">删除</a></li></ul>
+        <?php } }?>
+            
+        </li>
+        </ul>
+    </div>
+    <div class="r_tag">Tags:
+        <ul>
+        <?php if(!empty($alltag)){
+            foreach($alltag as $tag){ ?>
+            <li><a href="{U('note/index/lists','tag='.urlencode($tag))}"><?php echo $tag?></a></li>
+        <?php } }?>
+        </ul>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+<!--
+var sampleTags = ['<?php echo implode($alltag,'\',\'')?>'];
+$(function(){
+	{if $inserid > 0}
+	art.dialog.tips('添加成功', 1);
+	{elseif $inserid === false}
+	art.dialog.tips('添加失败', 1);
+	{/if}
+});
+//-->
+</script>
+{template "footer","blog"}

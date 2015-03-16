@@ -1,0 +1,53 @@
+{template "header","blog"}
+<script type="text/javascript" src="{JS_PATH}formvalidator.js"></script>
+<script type="text/javascript" src="{JS_PATH}formvalidatorregex.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.formValidator.initConfig({autotip:true,formid:"loginform",onerror:function(msg){}});
+	$('#username').formValidator({onshow:"请输入用户名",onfocus:"用户名至少5-20个字符"}).inputValidator({min:5,max:20,onerror:"用户名长度不正确"}).regexValidator({regexp:"ps_username",datatype:"enum",onerror:"用户名格式不正确"});
+	$("#password").formValidator({onshow:"请输入密码",onfocus:"密码至少6-10个字符"}).inputValidator({min:6,max:10,onerror:"密码至少6-10个字符"});
+	$("#vcode").formValidator({onshow:"请输入验证码"}).ajaxValidator({
+        type : "get",
+        url : "{U('api/vcode/code')}",
+        data :"",
+        datatype : "html",
+        async:'false',
+        success : function(data){
+            if( data == "1" ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        buttons: $("#dosubmit"),
+        onerror : "验证码不正确",
+        onwait : "在检查验证码..."
+    });
+});
+
+function changecode(){
+	var currentDate = new Date();
+	document.getElementById('vcodeimage').src = '{U('api/vcode/get')}'+'?t=' + currentDate.getTime();
+}
+</script>
+<div class="main">
+    <div class="passport">
+        <form action="{U('user/passport/login')}" method="post" id="loginform">
+        <div class="shead">用户登录</div>        
+        <div class="login">
+            <div class="row"><div class="name">用户名：</div><div class="value"><input type="text" id="username" name="username" value=""></div></div>
+            <div class="row"><div class="name">密码：</div><div class="value"><input type="password" id="password" name="password" value=""></div></div>
+            <div class="row"><div class="name">验证码：</div><div class="value"><input type="text" id="vcode" class="vcode" name="vcode" value=""><a href="javascript:;" onclick="changecode()"><img id="vcodeimage" src="{U('api/vcode/get','t='.SYS_TIME)}"/></a></div></div>
+            <div class="row"><div class="name">&nbsp;</div><div class="value"><label for="auto"><input type="checkbox" id="auto" name="auto" class="checkbox" value="true"/><span>两周内自动登录</span></label></div></div>
+            <div class="row">
+                <div class="name">&nbsp;</div>
+                <div class="value">
+                    <div class="signup"><input type="submit" class="button" name="dosubmit" id="dosubmit" value="登录" /></div>
+                    <div class="signup"><a href="{U('user/passport/signup')}">点击注册</a></div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+{template "footer","blog"}

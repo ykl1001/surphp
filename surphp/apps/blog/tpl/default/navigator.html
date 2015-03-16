@@ -1,0 +1,8 @@
+<div id="navigator" class="navi">
+    <ul>
+        <li><a href="/">首页</a></li>
+        <li><a href="{U('note/index/lists')}">记事本</a></li>
+        <li><a href="{U('blog/index/lists')}">博客</a></li>
+        <li class="right">{if !$this->user_id}<a href="{U('user/passport/login')}">登录</a>{else}欢迎<?php echo $this->user_name;?>，<a href="{U('user/passport/logout')}">退出</a>{/if}</li>
+    </ul>
+</div>

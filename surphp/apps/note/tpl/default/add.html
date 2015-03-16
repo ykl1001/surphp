@@ -1,0 +1,36 @@
+<form id="note_form" action="{U('note/index/lists')}" method="post">
+<div class="note_input">
+<ul class="notebg">
+    <li class="right"><span>可直接输入URL地址</span><li>
+    <li><a href="javascript:;" onclick="selectbg('FDFDB6')" class="bg_a"></a><li>
+    <li><a href="javascript:;" onclick="selectbg('C0E3F7')" class="bg_b"></a><li>
+    <li><a href="javascript:;" onclick="selectbg('FAD2DE')" class="bg_c"></a><li>
+    <li><a href="javascript:;" onclick="selectbg('D7EB9C')" class="bg_d"></a><li>
+    <li><a href="javascript:;" onclick="selectbg('F5EDD8')" class="bg_e"></a><li>
+    <li><a href="javascript:;" onclick="selectbg('CCCCCC')" class="bg_f"></a><li>
+    <li><a href="javascript:;" onclick="selectbg('FFFFFF')" class="bg_g"></a><li>
+    
+</ul>
+<input type="hidden" id="background" name="background" value=""/>
+<textarea id="note_content" name="content" style="width:400px;height:247px;"></textarea>
+<div class="row">
+    <div class="text">类别：</div>
+    <div class="input">
+    <select name="category" id="category">
+    {loop $category $cat}
+    <option value="{$cat['id']}">{$cat['cname']}</option>
+    {/loop}
+    </select>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="row">
+    <div class="text">标签：</div>
+    <div class="input">
+    <input type="text" name="tag" id="tag" class="title" value="<?php if(!empty($tag)){echo implode(',',array_slice($tag, 0, 2));}?>"/>
+    </div>
+</div>
+<input type="hidden" name="dosubmit" value="1"/>
+<div class="clear"></div>
+</div>
+</form>            

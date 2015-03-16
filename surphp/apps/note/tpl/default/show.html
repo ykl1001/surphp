@@ -1,0 +1,14 @@
+<div class="show_note">
+    <div class="show_title">
+        <ul class="notetags">
+        <?php if(!empty($note['tag']) && ($tags = explode(',',$note['tag']))){
+            foreach($tags as $tag){ ?>
+            <li><a href="{U('blog/index/lists','tag='.urlencode($tag))}"><?php echo $tag?></a></li>
+        <?php } }?>
+        </ul>
+        <span class="pv">访问量：{$note['pv']}</span>
+        <span class="date">更新于：{friendlyDate($note['modifytime'],'mohu')}</span>
+    </div>
+    <div class="content"{if $note['background']} style="background-color:#{$note['background']}"{/if}><pre>{$note['content']}</pre></div>
+    <div class="opera"><div class="left"><a href="{U('note/index/lists','cid='.$note['category'])}">{if $note['category']} {$category[$note['category']]['cname']} {else} 默认 {/if}</a></div><div class="right"><a href="{U('note/index/delete','id='.$note['id'])}">删除</a> </div></div>
+</div>

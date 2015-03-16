@@ -1,0 +1,146 @@
+{template "header","blog"}
+<script type="text/javascript" src="{JS_PATH}comment.js"></script>
+<script type="text/javascript">
+            var editor 
+            KindEditor.ready(function(K) {
+                K.each({
+                    'plug-align' : {
+                        name : '对齐方式',
+                        method : {
+                            'justifyleft' : '左对齐',
+                            'justifycenter' : '居中对齐',
+                            'justifyright' : '右对齐'
+                        }
+                    },
+                    'plug-order' : {
+                        name : '编号',
+                        method : {
+                            'insertorderedlist' : '数字编号',
+                            'insertunorderedlist' : '项目编号'
+                        }
+                    },
+                    'plug-indent' : {
+                        name : '缩进',
+                        method : {
+                            'indent' : '向右缩进',
+                            'outdent' : '向左缩进'
+                        }
+                    }
+                },function( pluginName, pluginData ){
+                    var lang = {};
+                    lang[pluginName] = pluginData.name;
+                    KindEditor.lang( lang );
+                    KindEditor.plugin( pluginName, function(K) {
+                        var self = this;
+                        self.clickToolbar( pluginName, function() {
+                            var menu = self.createMenu({
+                                    name : pluginName,
+                                    width : pluginData.width || 100
+                                });
+                            K.each( pluginData.method, function( i, v ){
+                                menu.addItem({
+                                    title : v,
+                                    checked : false,
+                                    iconClass : pluginName+'-'+i,
+                                    click : function() {
+                                        self.exec(i).hideMenu();
+                                    }
+                                });
+                            })
+                        });
+                    });
+                });
+                editor = K.create('#comment_data', {
+                    themeType : 'qq',
+                    items : [
+                        'bold','italic','underline','fontname','fontsize','forecolor','hilitecolor','plug-align','plug-order','plug-indent','link'
+                    ],
+                    afterFocus: function(data){
+                    	if(editor.html() == '请在这里发表评论'){
+                    		editor.html('');
+                    	}
+                    },
+                    afterBlur: function(data){
+                    	if(editor.html() == ''){
+                    		editor.html('请在这里发表评论');
+                    	}
+                    }
+                });
+            });
+        </script>
+<div class="main">
+<div class="opera_top">
+<ul>
+    <li class="left"><a href="{U('blog/index/add')}" class="writenew">写博客</a></li>
+    <li><a class="addcategory" href="{U('blog/category/add')}">添加分类</a></li>
+</ul>
+</div>
+<div class="main_left">
+	<div class="show">
+	    <div class="opera"><div class="left"><a href="{U('blog/index/lists','cid='.$blog['category'])}">{if $blog['category']} {$category[$blog['category']]['cname']} {else} 默认 {/if}</a></div><div class="right"><a href="{U('blog/index/modify','id='.$blog['id'])}">修改</a> <a href="{U('blog/index/delete','id='.$blog['id'])}">删除</a> </div></div>
+	    <div class="title">{$blog['title']}</div>
+	    <div class="clear"></div>
+	    <div class="subtitle">
+	        <span class="pv">访问量：{$blog['pv']}</span>
+            <span class="date">更新于：{friendlyDate($blog['modifytime'],'mohu')}</span>
+	    </div>
+	    <div class="clear"></div>
+	    <div class="hline border-b"></div>
+	    <div class="clear"></div>
+	    <div class="content">{$blog['content']}</div>
+	    <div class="clear"></div>
+        <div class="info"><span>标签:</span>
+            <ul class="blogtags">
+            <?php if(!empty($blog['tag']) && ($tags = explode(',',$blog['tag']))){
+            foreach($tags as $tag){ ?>
+                <li><a href="{U('blog/index/lists','tag='.urlencode($tag))}"><?php echo $tag?></a></li>
+            <?php } }?>
+            </ul>           
+        </div>	    
+	    <div class="clear"></div>
+	    <div class="hline border-b"></div>
+	    <div class="comment">
+	        <div class="publish">
+	            <form action="{U('blog/index/show','id='.$blog['id'])}" id="com_form">
+	                <textarea id="comment_data" style="width:98%;height:130px;visibility:hidden;">请在这里发表评论</textarea>
+	                <div class="action"><input type="button" class="submit" value="提交" onclick="postcomment(0)"/></div>
+	                <div class="clear"></div>
+	                <input type="hidden" name="comment_id" id="comment_id" value="{$blog['id']}">
+	            </form>
+	        </div>
+	        <div class="comment_list" id="comment_list">
+	            {$comment_html}
+	            <!-- div class="poster_data">
+	                <div class="comm_topbar"><span>游客</span>于 10分钟前</div>
+	                <div class="comm_content">的方式发送方试试的方式的发生地发生打发士大夫</div>
+	                <div class="other">ip:1721.1252.454<a herf="">删除</a><a href="">回复</a></div>
+	                <div class="clear"></div>
+	                <div class="poster_data">
+		                <div class="comm_topbar"><span>游客</span>于 10分钟前</div>
+	                    <div class="comm_content">的方式发送方试试的方式的发生地发生打发士大夫</div>
+	                    <div class="other">ip:1721.1252.454<a herf="">删除</a><a href="">回复</a></div>
+	                    <div class="clear"></div>
+	                    <div class="poster_data">
+                        <div class="comm_topbar"><span>游客</span>于 10分钟前</div>
+                        <div class="comm_content">的方式发送方试试的方式的发生地发生打发士大夫</div>
+                        <div class="other">ip:1721.1252.454<a herf="">删除</a><a href="">回复</a></div>
+                        <div class="clear"></div>
+	                    </div>	                    
+	                </div>	                
+	            </div-->
+	        </div>
+	    </div>
+	    <div class="clear"></div>
+	</div>
+</div>
+<div class="main_right">
+    <div class="r_tag">Tags:
+        <ul>
+        <?php if(!empty($alltag)){foreach($alltag as $tag){ ?>
+        <?php echo '<li><a href="'.U('blog/index/lists','tag='.urlencode($tag)).'">'.$tag.'</a></li>';?>
+        <?php } }?>
+        </ul>
+    </div>
+</div>
+</div>
+{template "footer","blog"}

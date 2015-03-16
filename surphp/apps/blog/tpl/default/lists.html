@@ -1,0 +1,54 @@
+{template "header","blog"}
+<div class="main">
+<div class="opera_top">
+<ul>
+    <li class="left"><a href="{U('blog/index/add')}" class="writenew">写博客</a></li>
+    <li><a class="addcategory" href="{U('blog/category/add')}">添加分类</a></li>
+</ul>
+</div>
+<div class="main_left">
+{loop $blogs $blog}
+<div class="blog">
+    <div class="info">
+		<ul class="blogtags">
+		<?php if(!empty($blog['tag']) && ($tags = explode(',',$blog['tag']))){
+            foreach($tags as $tag){ ?>
+			<li><a href="{U('blog/index/lists','tag='.urlencode($tag))}"><?php echo $tag?></a></li>
+		<?php } }?>
+		</ul>
+		<span class="pv">访问量：{$blog['pv']}</span>
+		<span class="date">更新于：{friendlyDate($blog['modifytime'],'mohu')}</span>
+	</div>
+    <div class="title">{$blog['title']}</div>
+    <div class="clear"></div>
+    <div class="content">{mStr($blog['content'],200)}</div>
+    <div class="clear"></div>
+    <div class="opera"><div class="left"><a href="{U('blog/index/lists','cid='.$blog['category'])}">{if $blog['category']} {$category[$blog['category']]['cname']} {else} 默认 {/if}</a></div><div class="right"><a href="{U('blog/index/show','id='.$blog['id'])}">阅读</a> <a href="{U('blog/index/modify','id='.$blog['id'])}">修改</a> <a href="{U('blog/index/delete','id='.$blog['id'])}">删除</a> </div></div>
+    <div class="clear"></div>
+</div>
+{/loop}
+</div>
+<div class="main_right">
+    <div class="r_category">
+        <ul id="cat_tree" class="filetree treeview-famfamfam">
+        <li><span class="folder">分类</span>
+            
+        <?php if(!empty($category)){
+            foreach($category as $cat){ ?>
+            <ul><li><span class="folder"><a href="{U('blog/index/lists','cid='.urlencode($cat['id']))}"><?php echo $cat['cname']?></a></span><a href="{U('blog/category/delete','cid='.urlencode($cat['id']))}" class="delcat">删除</a></li></ul>
+        <?php } }?>
+            
+        </li>
+        </ul>
+    </div>
+    <div class="r_tag">Tags:
+        <ul>
+        <?php if(!empty($alltag)){
+            foreach($alltag as $tag){ ?>
+            <li><a href="{U('blog/index/lists','tag='.urlencode($tag))}"><?php echo $tag?></a></li>
+        <?php } }?>
+        </ul>
+    </div>
+</div>
+</div>
+{template "footer","blog"}
